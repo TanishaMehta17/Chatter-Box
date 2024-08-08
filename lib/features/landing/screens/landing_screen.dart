@@ -43,7 +43,11 @@ class LandingScreen extends StatelessWidget {
           const SizedBox(height: 10),
           SizedBox(
               width: size.width * 0.75,
-              child: CustomButton(text: "Agree and Continue", onPressed: () =>navigateToLoginScreen(context)))
+              child: CustomButton(
+                  text: "Agree and Continue",
+                  onPressed: () {
+                    navigateToLoginScreen(context);
+                  }))
         ],
       )),
     );
