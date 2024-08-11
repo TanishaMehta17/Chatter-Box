@@ -1,3 +1,5 @@
+import 'package:whatsapp_ui/features/chat/repositories/chat_repository.dart';
+
 class ChatContact {
   final String name;
   final String profilePic;
@@ -31,4 +33,5 @@ class ChatContact {
       lastMessage: map['lastMessage'] ?? '',
     );
   }
+
 }
