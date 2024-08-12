@@ -137,4 +137,5 @@ class AuthRepository {
       'isOnline': isOnline,
     });
   }
+
 }
