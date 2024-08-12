@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/colors.dart';
@@ -187,16 +188,18 @@ void hideKeyboard()=>focusNode.unfocus();
                 ),
               ),
             ),
-             isShowEmojiContainer?  SizedBox(height: 310,
-             child: EmojiPicker(
-              onEmojiSelected: ((category,emoji))
-              {
-                setState(() {
-                  _messageController.text=_messageController.text+emoji.emoji;
-                });
-              }
-             ),
-             ): const SizedBox()
+             isShowEmojiContainer
+            ? SizedBox(
+                height: 310,
+                child: EmojiPicker(
+                  onEmojiSelected: (category, emoji) {
+                    setState(() {
+                      _messageController.text += emoji.emoji;
+                    });
+                  },
+                ),
+              )
+            : const SizedBox(),
           ],
         ),
       ],
