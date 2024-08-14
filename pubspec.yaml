@@ -47,6 +47,11 @@ dependencies:
   cached_network_image: 
   cached_video_player: 
   emoji_picker_flutter:
+  enough_giphy_flutter: 
+  flutter_sound:
+  permission_handler: 
+  path_provider:
+  audioplayers: 
 
 dev_dependencies:
   flutter_test:

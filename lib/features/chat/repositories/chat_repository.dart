@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
+import 'package:whatsapp_ui/common/providers/message_reply_provider.dart';
 import 'package:whatsapp_ui/common/repositories/common_firebase_storage_repository.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
 import 'package:whatsapp_ui/models/chat_contact.dart';
@@ -69,6 +70,7 @@ class ChatRepository {
     required String username,
     required recieverUserName,
     required MessageEnum messageType,
+    required MessageReply? messageReply,
   }) async {
     final message = Message(
         senderId: auth.currentUser!.uid,
@@ -77,6 +79,8 @@ class ChatRepository {
         type: messageType,
         timeSent: timeSent,
         messageId: messageId,
+        repliedMessage: messageReply==null ?'':messageReply.message,
+        repliedTo: messageReply==null?'': messageReply.isMe?sender,
         isSeen: false);
 
     await firestore
@@ -168,6 +172,34 @@ class ChatRepository {
       }
       return messages;
     });
+  }
+
+  void sendGIFMessage({
+    required BuildContext context,
+    required String gifUrl,
+    required String recieverUserId,
+    required UserModel senderUser,
+  }) async {
+    try {
+      var timeSent = DateTime.now();
+      UserModel recieverUserData;
+      var userDataMap =
+          await firestore.collection('users').doc(recieverUserId).get();
+      recieverUserData = UserModel.fromMap(userDataMap.data()!);
+      _saveDataToContactsSubcollections(
+          senderUser, recieverUserData, 'GIF', timeSent, recieverUserId);
+
+      _saveMessageToMessageSubcollection(
+          recieverUserId: recieverUserId,
+          recieverUserName: recieverUserData.name,
+          text: gifUrl,
+          timeSent: timeSent,
+          messageType: MessageEnum.gif,
+          messageId: messageId,
+          username: senderUser.name);
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
   }
 
   void sendFileMessage(
