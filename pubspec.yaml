@@ -51,7 +51,8 @@ dependencies:
   flutter_sound:
   permission_handler: 
   path_provider:
-  audioplayers: 
+  audioplayers:
+  swipe_to: 
 
 dev_dependencies:
   flutter_test:
