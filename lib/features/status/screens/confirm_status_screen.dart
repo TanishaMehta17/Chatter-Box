@@ -1,8 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/colors.dart';
+import 'package:whatsapp_ui/features/status/controller/status_controller.dart';
+
+
 
 class ConfirmStatusScreen extends ConsumerWidget {
   static const String routeName = '/confrim-status-screen';
@@ -12,6 +14,10 @@ class ConfirmStatusScreen extends ConsumerWidget {
     required this.file,
   }) : super(key: key);
 
+ void addStatus(WidgetRef ref, BuildContext context) {
+    ref.read(statusControllerProvider).addStatus(file, context);
+    Navigator.pop(context);
+  }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -27,7 +33,7 @@ class ConfirmStatusScreen extends ConsumerWidget {
           Icons.done,
           color: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: () =>addStatus(ref,context),
       ),
     );
   }

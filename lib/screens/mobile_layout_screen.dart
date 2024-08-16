@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/colors.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
 import 'package:whatsapp_ui/features/auth/controller/auth_controller.dart';
+import 'package:whatsapp_ui/features/group/screens/create_group_scrren.dart';
 import 'package:whatsapp_ui/features/select_contacts/screens/select_contact_screen.dart';
 import 'package:whatsapp_ui/features/chat/widgets/contacts_list.dart';
 import 'package:whatsapp_ui/features/status/screens/confirm_status_screen.dart';
@@ -70,10 +71,24 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
               icon: const Icon(Icons.search, color: Colors.grey),
               onPressed: () {},
             ),
-            IconButton(
-              icon: const Icon(Icons.more_vert, color: Colors.grey),
-              onPressed: () {},
-            ),
+            PopupMenuButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.grey,
+                ),
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: const Text(
+                          'Create Group',
+                        ),
+                        onTap: () {
+                          Future(
+                            () => Navigator.pushNamed(
+                                context, CreateGroupScreen.routeName),
+                          );
+                        },
+                      )
+                    ])
           ],
           bottom: TabBar(
             controller: tabBarController,
@@ -112,7 +127,8 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
             } else {
               File? pickedImage = await pickImageFromGallery(context);
               if (pickedImage != null) {
-                Navigator.pushNamed(context, ConfirmStatusScreen.routeName, arguments: pickedImage);
+                Navigator.pushNamed(context, ConfirmStatusScreen.routeName,
+                    arguments: pickedImage);
               }
             }
           },

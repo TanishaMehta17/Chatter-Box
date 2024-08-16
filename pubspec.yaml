@@ -53,6 +53,7 @@ dependencies:
   path_provider:
   audioplayers:
   swipe_to: 
+  story_view:
 
 dev_dependencies:
   flutter_test:
