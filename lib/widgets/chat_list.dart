@@ -13,7 +13,8 @@ import 'package:whatsapp_ui/features/chat/widgets/sender_message_card.dart';
 
 class ChatList extends ConsumerStatefulWidget {
   final String recieverUserId;
-  const ChatList({required this.recieverUserId, Key? key}) : super(key: key);
+  final bool isGroupChat;
+  const ChatList( {required this.recieverUserId, required this.isGroupChat, Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatListState();
@@ -36,7 +37,7 @@ class _ChatListState extends ConsumerState<ChatList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Message>>(
-      stream:
+      stream:widget.isGroupChat?  ref.watch(chatControllerProvider).groupChatStream(widget.recieverUserId):
           ref.watch(chatControllerProvider).chatStream(widget.recieverUserId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -52,15 +53,15 @@ class _ChatListState extends ConsumerState<ChatList> {
           itemBuilder: (context, index) {
             final messageData = snapshot.data![index];
             var timeSent = DateFormat.Hm().format(messageData.timeSent);
-               if (!messageData.isSeen &&
-                  messageData.recieverid ==
-                      FirebaseAuth.instance.currentUser!.uid) {
-                ref.read(chatControllerProvider).setChatMessageSeen(
-                      context,
-                      widget.recieverUserId,
-                      messageData.messageId,
-                    );
-              }
+            if (!messageData.isSeen &&
+                messageData.recieverid ==
+                    FirebaseAuth.instance.currentUser!.uid) {
+              ref.read(chatControllerProvider).setChatMessageSeen(
+                    context,
+                    widget.recieverUserId,
+                    messageData.messageId,
+                  );
+            }
             if (messageData.senderId ==
                 FirebaseAuth.instance.currentUser!.uid) {
               return MyMessageCard(
@@ -70,8 +71,9 @@ class _ChatListState extends ConsumerState<ChatList> {
                 repliedText: messageData.repliedMessage,
                 username: messageData.repliedTo,
                 repliedMessageType: messageData.repliedMessageType,
-                onLeftSwipe:()=> onMessageSwipe(messageData.text,true,messageData.type),
-                isSeen:messageData.isSeen,
+                onLeftSwipe: () =>
+                    onMessageSwipe(messageData.text, true, messageData.type),
+                isSeen: messageData.isSeen,
               );
             }
 
@@ -79,10 +81,11 @@ class _ChatListState extends ConsumerState<ChatList> {
               message: messageData.text,
               date: timeSent,
               type: messageData.type,
-                username: messageData.repliedTo,
-                repliedMessageType: messageData.repliedMessageType,
-                onRightSwipe:()=> onMessageSwipe(messageData.text,false,messageData.type),
-                repliedText:messageData.repliedMessage ,
+              username: messageData.repliedTo,
+              repliedMessageType: messageData.repliedMessageType,
+              onRightSwipe: () =>
+                  onMessageSwipe(messageData.text, false, messageData.type),
+              repliedText: messageData.repliedMessage,
             );
           },
         );

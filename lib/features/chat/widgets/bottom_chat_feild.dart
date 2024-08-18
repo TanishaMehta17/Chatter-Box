@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:whatsapp_ui/colors.dart';
+import 'package:whatsapp_ui/common/utils/colors.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
 import 'package:whatsapp_ui/common/providers/message_reply_provider.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
@@ -14,9 +14,11 @@ import 'package:whatsapp_ui/features/chat/widgets/message_reply_preview.dart';
 
 class BottomChatFeild extends ConsumerStatefulWidget {
   final String recieverUserId;
+  final bool isGroupChat;
   const BottomChatFeild({
     Key? key,
     required this.recieverUserId,
+     required this.isGroupChat,
   }) : super(key: key);
 
   @override
@@ -51,7 +53,7 @@ class _BottomChatFeildState extends ConsumerState<BottomChatFeild> {
   void sendTextMessage() async {
     if (isShowSendButton) {
       ref.read(chatControllerProvider).sendTextMessage(
-          context, _messageController.text.trim(), widget.recieverUserId);
+          context, _messageController.text.trim(), widget.recieverUserId,widget.isGroupChat);
       setState(() {
         _messageController.text = '';
       });
@@ -76,7 +78,7 @@ class _BottomChatFeildState extends ConsumerState<BottomChatFeild> {
   void sendFileMessage(File file, MessageEnum messageEnum) {
     ref
         .read(chatControllerProvider)
-        .sendFileMessage(context, file, widget.recieverUserId, messageEnum);
+        .sendFileMessage(context, file, widget.recieverUserId,widget.isGroupChat ,messageEnum);
   }
 
   void selectImage() async {
@@ -110,7 +112,7 @@ class _BottomChatFeildState extends ConsumerState<BottomChatFeild> {
     if (gif != null) {
       ref
           .read(chatControllerProvider)
-          .sendGIFMessage(context, gif.url, widget.recieverUserId);
+          .sendGIFMessage(context, gif.url, widget.recieverUserId,widget.isGroupChat);
     }
   }
 
@@ -142,7 +144,7 @@ class _BottomChatFeildState extends ConsumerState<BottomChatFeild> {
     final isShowMessageReply = messageReply != null;
     return Column(
       children: [
-        isShowMessageReply? const MessageReplyPreview():const SizedBox(),
+        isShowMessageReply ? const MessageReplyPreview() : const SizedBox(),
         Row(
           children: [
             Expanded(

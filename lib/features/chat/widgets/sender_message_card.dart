@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
-import 'package:whatsapp_ui/colors.dart';
+import 'package:whatsapp_ui/common/utils/colors.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
 import 'package:whatsapp_ui/features/chat/widgets/display_text_image_gif.dart';
 

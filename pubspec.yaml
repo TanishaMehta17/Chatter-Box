@@ -54,6 +54,7 @@ dependencies:
   audioplayers:
   swipe_to: 
   story_view:
+  agora_uikit: 
 
 dev_dependencies:
   flutter_test:
