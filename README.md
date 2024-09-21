@@ -21,6 +21,16 @@ Chatter-Box is a feature-rich messaging application built with Flutter that offe
 - **RiverPod:** Employed for state management, facilitating efficient and scalable state management across the app.
 - **REST API:** Used to interact with backend services, ensuring smooth and reliable communication between the client and server.
 
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/TanishaMehta17/Chatter-Box/
+2. **Get the dependecy:**
+   ```bash
+   flutter pub get
+   
+3. **Run the project:**
+   ```bash
+   flutter run
 ## Configuration
 
 ### Firebase Setup
